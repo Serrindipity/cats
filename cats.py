@@ -53,7 +53,13 @@ def about(subject):
     """
     assert all([lower(x) == x for x in subject]), 'subjects should be lowercase.'
     # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
+    def select(item):
+        item = split(lower(remove_punctuation(item)))
+        for i in subject:
+            if i in item:
+                return True
+        return False
+    return select
     # END PROBLEM 2
 
 

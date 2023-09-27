@@ -89,7 +89,21 @@ def accuracy(typed, source):
     typed_words = split(typed)
     source_words = split(source)
     # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
+    #Tabs don't count
+    #punctuation counts
+    if not typed_words and not source_words:
+        return 100.0
+    elif (not typed_words and source_words) or (typed_words and not source_words):
+        return 0.0
+    correct = 0
+    smallest_size = min(len(source_words),len(typed_words))
+    largest_size = max(len(source_words),len(typed_words))
+    for i in range(smallest_size):
+        if typed_words[i] == source_words[i]:
+            correct += 1
+    if len(source_words) > len(typed_words):
+        largest_size = len(typed_words)
+    return (correct / largest_size) * 100
     # END PROBLEM 3
 
 
@@ -107,7 +121,7 @@ def wpm(typed, elapsed):
     """
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    return (len(typed) / 5) / (elapsed / 60)
     # END PROBLEM 4
 
 
@@ -136,7 +150,17 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    if typed_word in word_list:
+        return typed_word
+    new_list = []
+    for i in range(len(word_list)):
+        if diff_function(typed_word,word_list[i],limit) <= limit:
+            new_list.append(word_list[i])
+    if not new_list:
+        return typed_word
+    def key_function(w2):
+        return diff_function(typed_word,w2,limit)
+    return min(new_list,key=key_function)
     # END PROBLEM 5
 
 
@@ -163,7 +187,20 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    if len(typed) != len(source) and (not typed or not source):
+        return abs(len(typed) - len(source))
+    elif not typed and not source:
+        return 0
+    elif typed[0] == source[0]:
+        if feline_fixes(typed[1:],source[1:],limit) > limit:
+            return 1 + limit
+        else:
+            return feline_fixes(typed[1:],source[1:],limit)
+    elif typed[0] != source[0]:
+        if 1 + feline_fixes(typed[1:],source[1:],limit) > limit:
+            return 1 + limit
+        else:
+            return 1 + feline_fixes(typed[1:],source[1:],limit)
     # END PROBLEM 6
 
 

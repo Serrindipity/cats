@@ -187,20 +187,23 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    if len(typed) != len(source) and (not typed or not source):
-        return abs(len(typed) - len(source))
-    elif not typed and not source:
-        return 0
-    elif typed[0] == source[0]:
-        if feline_fixes(typed[1:],source[1:],limit) > limit:
-            return 1 + limit
-        else:
-            return feline_fixes(typed[1:],source[1:],limit)
-    elif typed[0] != source[0]:
-        if 1 + feline_fixes(typed[1:],source[1:],limit) > limit:
-            return 1 + limit
-        else:
-            return 1 + feline_fixes(typed[1:],source[1:],limit)
+    counter = 0
+
+    if len(typed) == 0:
+        return len(source)
+    elif len(source) == 0:
+        return len(typed)
+    
+    if typed[0] != source[0]:
+        counter += 1
+        limit -= 1
+    
+    if limit < 0:
+        return 1000
+    
+    counter += feline_fixes( typed[1:], source[1:], limit)
+
+    return counter
     # END PROBLEM 6
 
 

@@ -334,7 +334,18 @@ def fastest_words(match):
     player_indices = range(len(get_all_times(match)))  # contains an *index* for each player
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    lst = []
+    for i in player_indices:
+        lst.append([])
+    for i in word_indices:
+        min = 10000
+        pos_of_fastest = 0
+        for j in player_indices:
+            if time(match, j, i) < min:
+                pos_of_fastest = j
+                min = time(match, j, i)
+        lst[pos_of_fastest].append(get_word(match, i))
+    return lst
     # END PROBLEM 10
 
 

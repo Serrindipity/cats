@@ -227,22 +227,21 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ___________: # Base cases should go here, you may add more base cases as needed.
+    if (source in typed) or (typed in source): # Base cases should go here, you may add more base cases as needed.
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return abs(len(typed) - len(source))
         # END
+    if limit < 0:
+        return 1000
     # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if typed[0] == source[0]:
+        return minimum_mewtations(typed[1:], source[1:], limit - 1)
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
+        add = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1) # Fill in these lines
+        remove = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1)
+        substitute = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1)
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return min(add, remove, substitute)
         # END
 
 
@@ -283,7 +282,15 @@ def report_progress(typed, source, user_id, upload):
     0.2
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    dict = {'id': user_id, 'progress': 0.0}
+    for i in range(len(typed)):
+        if typed[i] == source[i]:
+            dict['progress'] += 1
+        else:
+            break
+    dict['progress'] = dict['progress'] / len(source)
+    upload(dict)
+    return dict['progress']
     # END PROBLEM 8
 
 

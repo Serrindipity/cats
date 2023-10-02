@@ -237,7 +237,12 @@ def minimum_mewtations(typed, source, limit):
     if typed[0] == source[0]:
         return minimum_mewtations(typed[1:], source[1:], limit - 1)
     else:
-        add = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1) # Fill in these lines
+        min = 1000
+        for i in range(len(typed) + 1):
+            if minimum_mewtations(typed[:i] + 'x' + typed[i:], source, limit) < min:
+                min = minimum_mewtations(typed[:i] + 'x' + typed[i:], source, limit)
+        add = min
+        
         remove = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1)
         substitute = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1)
         # BEGIN
@@ -312,7 +317,17 @@ def time_per_word(words, timestamps_per_player):
     [[6, 3, 6, 2], [10, 6, 1, 2]]
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    times = []
+    index = 0
+    for lst in timestamps_per_player:
+        
+        times.append([])
+        start = lst[0]
+        for i in lst[1:]:
+            times[index].append(i - start)
+            start = i
+        index += 1
+    return match(words, times)
     # END PROBLEM 9
 
 

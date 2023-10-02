@@ -227,17 +227,8 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    if (typed == source): # Base cases should go here, you may add more base cases as needed.
-        return 0
-
-    typedIndex = typed.find(source)
-    sourceIndex = source.find(typed)
-    if typedIndex != -1 :
-        return len( typed[ :typedIndex] + typed[typedIndex + len(source): ] )
-    
-    if sourceIndex != -1:
-        return len( source[ : sourceIndex] + source[sourceIndex + len(typed): ])
-    
+    if ((typed in source) or (source in typed)):
+        return abs(len(typed) - len(source))
     if limit < 0:
         return 1000
     # Recursive cases should go below here
@@ -247,12 +238,12 @@ def minimum_mewtations(typed, source, limit):
         return minimum_mewtations(typed[1:], source[1:], limit)
         # END
     else:
-        add = 1 + minimum_mewtations(source[0]+typed, source, limit - 1) 
+        add = 1 + minimum_mewtations(source[0] + typed, source, limit - 1) 
         remove = 1 + minimum_mewtations(typed[1:], source, limit - 1) 
-        substitute = 1 + minimum_mewtations(source[0] + typed[1:], source, limit -1)
+        substitute = 1 + minimum_mewtations(source[0] + typed[1:], source, limit - 1)
         # BEGIN
         "*** YOUR CODE HERE ***"
-        return min( add, remove, substitute)
+        return min(add, remove, substitute)
         # END
 
 
